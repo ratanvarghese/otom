@@ -152,6 +152,41 @@ describe("pairs", function()
 	end)
 end)
 
+describe("ipairs", function()
+	local planets = {
+		"Mercury",
+		"Venus",
+		"Earth",
+		"Mars",
+		"Jupiter",
+		"Saturn",
+		"Uranus",
+		"Neptune"
+	}
+	local ft, rt = otom.new(planets)
+	it("forward", function()
+		local old_i = 0
+		for i,v in ipairs(ft) do
+			assert.are.equals(ft[i], v)
+			assert.are.equals(rt[v], i)
+			assert.are.equals(planets[i], v)
+			assert.are.equals(i, old_i + 1)
+			old_i = old_i + 1
+		end
+	end)
+	local frt, rrt = otom.new(rt)
+	it("reverse", function()
+		local old_i = 0
+		for i,v in ipairs(rrt) do
+			assert.are.equals(rrt[i], v)
+			assert.are.equals(frt[v], i)
+			assert.are.equals(planets[i], v)
+			assert.are.equals(i, old_i + 1)
+			old_i = old_i + 1
+		end
+	end)
+end)
+
 describe("setmetatable", function()
 	local meta = {}
 	local ft, rt = otom.new()
