@@ -123,3 +123,31 @@ describe("overwrite value", function()
 		end)
 	end)
 end)
+
+describe("pairs", function()
+	local planets = {
+		"Mercury",
+		"Venus",
+		"Earth",
+		"Mars",
+		"Jupiter",
+		"Saturn",
+		"Uranus",
+		"Neptune"
+	}
+	local ft, rt, fpairs, rpairs = otom.new(planets)
+	it("forward", function()
+		for k,v in fpairs() do
+			assert.are.equals(ft[k], v)
+			assert.are.equals(rt[v], k)
+			assert.are.equals(planets[k], v)
+		end
+	end)
+	it("reverse", function()
+		for k,v in rpairs() do
+			assert.are.equals(rt[k], v)
+			assert.are.equals(ft[v], k)
+			assert.are.equals(planets[v], k)
+		end
+	end)
+end)

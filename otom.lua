@@ -28,6 +28,12 @@ local function contrary_mt(fmt, rmt, finished_forward)
 	return fmt, rmt
 end
 
+local function custom_pairs(mt)
+	return function()
+		return next, mt.storage, nil
+	end
+end
+
 function otom.new(initial_table)
 	local initial_table = initial_table or {}
 	local forward, reverse = {}, {}
@@ -41,7 +47,7 @@ function otom.new(initial_table)
 		end
 		forward[k] = v
 	end
-	return forward, reverse
+	return forward, reverse, custom_pairs(fmt), custom_pairs(rmt)
 end
 
 return otom
