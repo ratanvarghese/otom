@@ -1,8 +1,6 @@
 local otom = {}
 
-local function contrary_mt(fmt, rmt, finished_forward)
-	fmt = fmt or {}
-	rmt = rmt or {}
+local function otom_mt(fmt, rmt)
 	fmt.storage = {}
 	fmt.__index = fmt.storage
 	fmt.__newindex = function(t, k, v)
@@ -22,10 +20,6 @@ local function contrary_mt(fmt, rmt, finished_forward)
 		end
 	end
 	fmt.__metatable = false
-	if not finished_forward then
-		contrary_mt(rmt, fmt, true)
-	end
-	return fmt, rmt
 end
 
 local function custom_pairs(mt)
@@ -36,8 +30,9 @@ end
 
 function otom.new(initial_table)
 	local initial_table = initial_table or {}
-	local forward, reverse = {}, {}
-	fmt, rmt = contrary_mt()
+	local forward, reverse, fmt, rmt = {}, {}, {}, {}
+	otom_mt(fmt, rmt)
+	otom_mt(rmt, fmt)
 	setmetatable(forward, fmt)
 	setmetatable(reverse, rmt)
 
