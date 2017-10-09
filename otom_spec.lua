@@ -151,3 +151,18 @@ describe("pairs", function()
 		end
 	end)
 end)
+
+describe("setmetatable", function()
+	local meta = {}
+	local ft, rt = otom.new()
+	it("forward", function()
+		assert.has_error(function()
+			setmetatable(ft, meta)
+		end)
+	end)
+	it("reverse", function()
+		assert.has_error(function()
+			setmetatable(rt, meta)
+		end)
+	end)
+end)
