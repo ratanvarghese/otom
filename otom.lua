@@ -1,5 +1,11 @@
 local otom = {}
 
+local function custom_pairs(mt)
+	return function()
+		return next, mt.storage, nil
+	end
+end
+
 local function otom_mt(fmt, rmt)
 	fmt.storage = {}
 	fmt.__index = fmt.storage
@@ -19,13 +25,8 @@ local function otom_mt(fmt, rmt)
 			rmt.storage[v] = k
 		end
 	end
+	fmt.__pairs = custom_pairs(fmt) -- https://www.lua.org/manual/5.3/manual.html#pdf-pairs
 	fmt.__metatable = false
-end
-
-local function custom_pairs(mt)
-	return function()
-		return next, mt.storage, nil
-	end
 end
 
 function otom.new(initial_table)
@@ -42,7 +43,7 @@ function otom.new(initial_table)
 		end
 		forward[k] = v
 	end
-	return forward, reverse, custom_pairs(fmt), custom_pairs(rmt)
+	return forward, reverse
 end
 
 return otom

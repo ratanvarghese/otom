@@ -135,16 +135,16 @@ describe("pairs", function()
 		"Uranus",
 		"Neptune"
 	}
-	local ft, rt, fpairs, rpairs = otom.new(planets)
+	local ft, rt = otom.new(planets)
 	it("forward", function()
-		for k,v in fpairs() do
+		for k,v in pairs(ft) do
 			assert.are.equals(ft[k], v)
 			assert.are.equals(rt[v], k)
 			assert.are.equals(planets[k], v)
 		end
 	end)
 	it("reverse", function()
-		for k,v in rpairs() do
+		for k,v in pairs(rt) do
 			assert.are.equals(rt[k], v)
 			assert.are.equals(ft[v], k)
 			assert.are.equals(planets[v], k)
