@@ -29,19 +29,29 @@ local function otom_mt(fmt, rmt)
 	fmt.__metatable = false
 end
 
-function otom.new(initial_table)
+otom.ERR = 0
+otom.FIRST = 1
+otom.LAST = 2
+
+function otom.new(initial_table, repeat_mode, iter_factory)
 	local initial_table = initial_table or {}
+	local repeat_mode = repeat_mode or otom.ERR
+	local iter_factory = iter_factory or pairs
 	local forward, reverse, fmt, rmt = {}, {}, {}, {}
 	otom_mt(fmt, rmt)
 	otom_mt(rmt, fmt)
 	setmetatable(forward, fmt)
 	setmetatable(reverse, rmt)
 
-	for k,v in pairs(initial_table) do
-		if reverse[v] ~= nil then
+	for k,v in iter_factory(initial_table) do
+		local repeated_value = reverse[v] ~= nil
+		if repeated_value and repeat_mode == otom.ERR then
 			error("Initial table is not one-to-one.")
+		elseif repeated_value and repeat_mode == otom.FIRST then
+			--Don't change the key-value relationship.
+		else --if not repeated_value or repeat_mode == otom.LAST then --conditions implied
+			forward[k] = v
 		end
-		forward[k] = v
 	end
 	return forward, reverse
 end

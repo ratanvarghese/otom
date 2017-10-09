@@ -14,7 +14,7 @@ expose("require otom", function()
 end)
 
 describe("new with initial values", function()
-	describe("valid", function()
+	describe("one-to-one", function()
 		local ik = "initial key"
 		local iv = "initial value"
 		local ft, rt = otom.new{[ik]=iv}
@@ -26,18 +26,49 @@ describe("new with initial values", function()
 		end)
 	end)
 
-	describe("invalid", function()
-		local ik_1 = "initial key"
-		local ik_2 = "another key"
-		local iv = "initial value"
-		local init_table = {
-			[ik_1] = iv,
-			[ik_2] = iv
+	describe("custom iterator factory", function()
+		local planets = {
+			"Mercury",
+			"Venus",
+			"Earth",
+			"Mars"
 		}
-		it("forward", function()
+		local planet_iter_factory = function()
+			return next, planets, nil
+		end
+		local ft, rt = otom.new(nil, nil, planet_iter_factory)
+		it("actually used", function()
+			for i,v in ipairs(planets) do
+				assert.are.equals(ft[i], v)
+				assert.are.equals(rt[v], i)
+			end
+		end)
+	end)
+
+	describe("one-to-many", function()
+		local iv = "initial value"
+		local init_table = { iv, iv }
+		it("default", function()
 			assert.has_error(function()
 				otom.new(init_table)
 			end, "Initial table is not one-to-one.")
+		end)
+		it("otom.ERR", function()
+			assert.has_error(function()
+				otom.new(init_table, otom.ERR)
+			end, "Initial table is not one-to-one.")
+		end)
+		it("otom.FIRST", function()
+			local ft, rt = otom.new(init_table, otom.FIRST, ipairs)
+			assert.are.equals(ft[1], iv)
+			assert.is_nil(ft[2])
+			assert.are.equals(rt[iv], 1)
+		end)
+		it("otom.LAST", function()
+			local ft, rt = otom.new(init_table, otom.LAST, ipairs)
+			assert.are.equals(ft[2], iv)
+			assert.is_nil(ft[1])
+			assert.are.equals(rt[iv], 2)
 		end)
 	end)
 end)
