@@ -33,7 +33,7 @@ Since there is a one-to-one relationship between keys and values, it becomes tri
 	assert(rt.Hello == "x")
 	assert(rt.World == "y")
 
-These tables are proxies. However, thanks to the [\_\_pairs metamethod in Lua 5.3](www.lua.org/manual/5.3/manual.html#pdf-pairs) it is still possible to use `pairs` and `ipairs` as usual.
+These tables are proxies. However, thanks to the [\_\_pairs metamethod in Lua 5.3](https://www.lua.org/manual/5.3/manual.html#pdf-pairs) it is still possible to use `pairs` and `ipairs` as usual.
 
 	assert(rawget(ft, "x") == nil)
 	assert(rawget(rt, "Hello") == nil)
@@ -91,7 +91,7 @@ Setting the `iter_factory` to `ipairs` allows you to use `repeat_mode` to predic
 	assert(t[2] == "A")
 	assert(t[3] == "B")
 
-You can use other iterator factories if you wish. Read [this page](www.lua.org/pil/7.2.html) to find out how to write your own.
+You can use other iterator factories if you wish. Read [this page](https://www.lua.org/pil/7.2.html) to find out how to write your own.
 
 It is possible to do away with having an initial table entirely if the iterator factory can produce all the necessary values.
 
