@@ -27,6 +27,9 @@ local function otom_mt(fmt, rmt)
 	end
 	fmt.__pairs = custom_pairs(fmt) -- https://www.lua.org/manual/5.3/manual.html#pdf-pairs
 	fmt.__metatable = false
+	fmt.__len = function()
+		return #fmt.storage
+	end
 end
 
 otom.ERR = 0
