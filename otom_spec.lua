@@ -232,3 +232,24 @@ describe("setmetatable", function()
 		end)
 	end)
 end)
+
+describe("array size", function()
+	local ft, rt = otom.new()
+	local values = {"Mercury", "Venus", "Earth", "Mars"}
+	for i,v in ipairs(values) do
+		table.insert(ft, v)
+	end
+	it("forward length", function()
+		assert.are.equals(#ft, #values)
+	end)
+	it("forward ipairs", function()
+		for i,v in ipairs(values) do
+			assert.are.equals(ft[i], v)
+		end
+	end)
+	it("reverse ipairs", function()
+		for i,v in ipairs(values) do
+			assert.are.equals(i, rt[v])
+		end
+	end)
+end)
