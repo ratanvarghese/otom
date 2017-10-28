@@ -44,6 +44,18 @@ These tables are proxies. However, thanks to the [\_\_pairs metamethod in Lua 5.
 		assert(ft[v] == k)
 	end
 
+As of version 1.1 using one-to-one maps as arrays is supported.
+
+	ft = otom.new()
+	planets = { "Mercury", "Venus", "Earth", "Mars" }
+	for i,v in ipairs(planets) do
+		table.insert(ft, v)
+	end
+	assert(#ft == 4)
+	for i,v in ipairs(planets) do
+		assert(ft[i] == v)
+	end
+
 ## Initial Tables and Iterator Factories
 
 A one-to-one map can be created from a regular table.
