@@ -253,3 +253,24 @@ describe("array size", function()
 		end
 	end)
 end)
+
+describe("reverse array size", function()
+	local ft, rt = otom.new()
+	local values = {"Mercury", "Venus", "Earth", "Mars"}
+	for i,v in ipairs(values) do
+		table.insert(rt, v)
+	end
+	it("reverse length", function()
+		assert.are.equals(#rt, #values)
+	end)
+	it("reverse ipairs", function()
+		for i,v in ipairs(values) do
+			assert.are.equals(rt[i], v)
+		end
+	end)
+	it("forward ipairs", function()
+		for i,v in ipairs(values) do
+			assert.are.equals(i, ft[v])
+		end
+	end)
+end)
